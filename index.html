@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <title>Red Folder mobile</title>
+
+        <link rel="stylesheet" href="css/af.ui.css">
+        <link rel="stylesheet" href="css/icons.css">
+        <script type="text/javascript" src="phonegap.js"></script>
+        <script type="text/javascript" src="js/appframework.min.js"></script>
+        <script type="text/javascript" src="js/appframework.ui.js"></script>
+
+        <style type="text/css">
+            .footer {
+                display:none !important;
+            }
+            /*
+                Colors
+                #B12421   red folder red
+            */
+            /* default list styling */
+            ul, li {
+                padding:0;
+                margin-left: 5px;
+            }
+            ul {
+                list-style-type: disc;
+                list-style-position: outside;
+            }
+            ol {
+                list-style-type: decimal;
+                list-style-position: outside;
+            }
+            ul ul, ol ul {
+                margin-left: 15px;
+                list-style-type: circle;
+            }
+            ol ol, ul ol {
+                margin-left: 15px;
+                list-style-type: lower-latin;
+            }
+
+           /* Main menu styling */
+            #tabMenu {
+                display: table;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                table-layout: fixed;
+                background-color: #FFF;
+                width: 100%; 
+                height: 45px;
+                border-bottom:1px solid #C6C6C6;
+            }
+            #tabMenu li {
+                display: table-cell;
+                border-right:1px solid #EBEBEB;
+            }
+            #tabMenu li:last-child {
+                border-right:none;
+            }
+            #tabMenu li a{
+                display: block;
+                color: gray;
+                font-family: calibri, "open sans", "sans serif";
+                text-decoration: none;
+                text-align: center;
+                height: 45px;
+                line-height: 45px;
+                border-bottom:1px solid #EBEBEB;
+            }
+            #tabMenu li a.current {
+                border-bottom:5px solid #B12421;
+            }
+
+            /* RedFolder afui styles */
+            #afui #header, #afui .header {
+                background: #B12421 !important;
+                border-bottom: none;
+            }
+            #afui #content .panel {
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
+            #afui #content h1, #afui #content h2, #afui #content h3, #afui #content h4, #afui #content h5, #afui #content h6 {
+                text-transform: uppercase;
+                color: #641731;
+            }
+            #afui #indicators h1, #afui #indicators h2, #afui #indicators h3, #afui #indicators h4, #afui #indicators h5, #afui #indicators h6 {
+                color: #193782;
+            }
+            
+            .grayText {
+                color: #565656;
+            }
+            .redText {
+                color: #641731;
+            }
+            #afui #content section {
+                padding:5px;
+            }
+            #afui #content section ul, #afui #content section ol {
+                margin-left: 10px;
+            }
+            #afui #content .protocolTitle {
+                float:left;
+                width:15%;
+                margin-top: 70px;
+            }
+            #afui #content .redTitle {
+                color: #C70023;
+            }
+            #afui #content .orangeTitle {
+                color: #9A4021;
+            }
+            #afui #content .greenTitle {
+                color: #556F35;    
+            }
+            #content #protocolQuestion {
+                background-color: #424242;
+                color: white;
+                padding: 15px 30px;
+                margin-left: -10px;
+                margin-right: -10px;
+                font-size: 1.4em;
+            }
+            #content .protocolOption {
+                float:right;
+                display: block;
+                position: relative;
+                min-height: 170px;
+                width: 85%;
+                text-decoration: none;
+                padding: 10px 5px;
+                font-size: 1.2em;
+                border: 2px solid gray;
+                margin: 5px 0;
+            }
+            #content .protocolOption p{
+                font-size: 1em;
+            }
+            #content .protocolAction {
+                font-size: 1.1em;
+                font-style: bold;
+                color: black;
+            }
+            #content .protocolLink {
+                display: inline-block;
+                padding: 5px;
+                text-decoration: none;
+            }
+            #content .protocolLink::after {
+                font-family: 'chevron';
+                content: "\f054";
+                font-size: 0.7em;
+                speak:none;
+                color: black;
+                position: relative;
+                top:-1px;
+                right: -5px;
+            }
+            .redBox {
+                background-color: #FA8D94;
+                color: black !important;
+            }
+            .yellowBox {
+                background-color: #F8EF6F;
+                color: black !important;
+            }
+            .greenBox {
+                background-color: #87b155;
+                color: black !important;
+            }
+            #content table {
+                width: 100%;
+            }
+            #content table tr:nth-child(even) {
+                background-color: #cbcbcb;
+            }
+            #content table td {
+                padding: 5px;
+            }
+            #content .dropDown {
+                background-color: #E2DFDF;
+            }
+            #content .dropDown > a:first-child {
+                display: block;
+                text-decoration: none;
+                background-color: #546b77;
+                padding: 10px;
+                color: white;
+            }
+            #content .dropDown > section {
+                overflow: hidden;
+                max-height: 0;
+                opacity: 0;
+                position: relative;
+                z-index: 10;
+                color:#323232;
+
+                -webkit-transition: opacity 0.5s linear, max-height 0.5s ease-in-out;  /* Android 2.1+, Chrome 1-25, iOS 3.2-6.1, Safari 3.2-6  */
+                transition: opacity 0.5s linear, max-height 0.5s ease-in-out;
+            }
+            #content .dropDown .showDetails{
+                opacity: 1;
+                max-height: 1000px; /*auto*/
+            }
+            /**
+             * For modern browsers
+             * 1. The space content is one way to avoid an Opera bug when the
+             *    contenteditable attribute is included anywhere else in the document.
+             *    Otherwise it causes space to appear at the top and bottom of elements
+             *    that are clearfixed.
+             * 2. The use of `table` rather than `block` is only necessary if using
+             *    `:before` to contain the top-margins of child elements.
+             */
+             .cf:before,
+             .cf:after {
+                content: " "; /* 1 */
+                display: table; /* 2 */
+            }
+
+            .cf:after {
+                clear: both;
+            }
+
+            /**
+             * For IE 6/7 only
+             * Include this rule to trigger hasLayout and contain floats.
+             */
+             .cf {
+                *zoom: 1;
+            }
+        </style>
+        <script type="text/javascript">
+            if (! ( (window.DocumentTouch && document instanceof  DocumentTouch ) || 'ontouchstart' in window )) {
+                var script = document.createElement ("script");
+                script.src = "plugins/af.desktopBrowsers.js";
+                var tag = $("head").append(script);
+            }
+
+        </script>
+    </head>
+    <body onload="onLoad()">
+        <div id="afui">
+            <div id="header">
+                <h1>Red Folder</h1>
+                <a href="#campusSelectPage" class="button icon big location"></a>
+            </div>
+            <ul id="tabMenu">
+                <!-- data-ignore set to let custom javascript in redfolder.js do transition -->
+                <li><a href="#protocolPage" data-transition="fade" class="current">Protocol</a></li>
+                <li><a href="#seePage" data-transition="fade">See</a></li>
+                <li><a href="#sayPage" data-transition="fade">Say</a></li>
+                <li><a href="#doPage" data-transition="fade">Do</a></li>
+                <li><a href="#contactPage" data-transition="fade">Contact</a></li>
+            </ul>
+
+            <div id="content">
+                <div class="panel" id="campusSelectPage" modal="true">
+                    <h1>Select CSU Campus</h1>
+                    <select id="selectCampus">
+                    <option>CSUSB</option>
+                    <option>CSUSB Palm Desert</option>
+                  </select>
+                  <a href="#" class="button" onclick="campusManuallySelected()">Set campus</a>
+                </div>
+                <div class="panel" id="protocolPage" selected="true">
+                    <h3>CSUSB Respond protocol</h3>
+                    <p>Follow the chart to determine who to connect when faced with a distressed or distressing student.</p>
+                    <p id="protocolQuestion">Is the student a danger to self or others, or does the student need immediate assistance for any reason?</p>
+
+                    <div class="grid">
+                        <div class="col3 cf">
+                            <h2 class="protocolTitle">Yes</h2>
+                            <div class="protocolOption redBox">
+                                <p>The student’s conduct is clearly and imminently reckless, disorderly, dangerous, or threatening including self-harm behavior</p>
+                                <div id="protocolYES"><a href="tel:911" class="protocolAction protocolLink">Call 911 or Campus Police</a></div>
+                            </div>
+                        </div>
+                        <div class="col3 cf">
+                            <h2 class="protocolTitle">Not Sure</h2>
+                            <div class="protocolOption yellowBox">
+                                <p>The student shows signs of distress but I am unsure how serious it is. My interaction has left me feeling uneasy and/ or really concerned about the student.</p>
+                                <div id="protocolNOTSURE"><a href="#contactPage" class="protocolAction protocolLink">Consult with and/or refer to the Counseling Center</a></div>
+                            </div>    
+                        </div>
+                        <div class="col3 cf">
+                            <h2 class="protocolTitle">No</h2>
+                            <div class="protocolOption greenBox">
+                                <p>I’m not concerned for the students immediate safety, but he or she is having significant academic and/or personal issues and could use some support or additional resources.</p>
+                                <div id="protocolNO">Refer students to an appropriate campus resource</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel" id="seePage">
+                    <section>
+                        <h2>SEE <span class="grayText">SOMETHING.</span></h2>
+                        <p>CSU faculty and staff are in a unique position to demonstrate compassion for CSU students in distress.
+                            Both undergraduate and graduate students may feel alone, isolated, and even hopeless when faced with academic and life challenges. These feelings can easily disrupt academic performance and may lead to difficulties coping and other serious consequences. You may be the first person to SEE SOMETHING distressing in your students since you have frequent and prolonged contact with them.
+                            The California State University, in collaboration with the California Mental Health Services Authority (CalMHSA), requests that you act with compassion when assisting students.</p>
+                    </section> 
+                    <div class="dropDown">
+                        <a class="icon right">View Indicators</a>
+                        <section id="indicators">
+                            <div class="grid">
+                                <div class="col2">
+                                    <section>
+                                        <h3>Academic <span class="grayText">Indicators</span></h3>
+                                        <hr>
+                                        <ul>
+                                            <li>Sudden decline in quality of work and grades</li>
+                                            <li>Repeated Absenses</li>
+                                            <li>Disturbed content in writing or presentatios (e.g., violence, death)</li>
+                                            <li>You find yourself doing more personal rather than academic counseling during office hours</li>
+                                            <li>Continuous classroom disruptions</li>
+                                        </ul>
+                                    </section>
+                                </div>
+                                <div class="col2">
+                                    <section>
+                                        <h3>Safety risk <span class="grayText">Indicators</span></h3>
+                                        <hr>
+                                        <ul>
+                                            <li>Unprovoked anger or hostility</li>
+                                            <li>Making implied or direct threats to harm self or others</li>
+                                            <li>Academic assignments dominated by themes of extreme hopelessness, rage, worthlessness, isolation, dispare, acting out, suicidal ideations/violent behaviors</li>
+                                        </ul>
+                                    </section>
+                                </div>
+                            </div>
+                            <div class="grid">
+                                <div class="col2">
+                                    <section>
+                                        <h3>Psychological <span class="grayText">Indicators</span></h3>
+                                        <hr>
+                                        <ul>
+                                            <li>Self-disclosure of personal distess that could include family problems, financial difficulties, depression, grief, or thoughts of suicide</li>
+                                            <li>Excessive tearfulness, panic reactions, irratibility or unusual apathy</li>
+                                            <li>Verbal abuse (e.g., taunting, badgering, intimidation)</li>
+                                            <li>Expressions of concern about the students by his/her peers</li>
+                                        </ul>
+                                    </section>
+                                </div>
+                                <div class="col2">
+                                    <section>
+                                        <h3>Physical <span class="grayText">Indicators</span></h3>
+                                        <hr>
+                                        <ul>
+                                            <li>Marked changes in physical appearance include deterioration in grooming, hygiene, or weight loss/gain</li>
+                                            <li>Excessive fatigue/sleep disturbance</li>
+                                            <li>Intoxication, hangovers, or smelling of alcohol</li>
+                                            <li>Disoriented or "out of it"</li>
+                                        </ul>
+                                    </section>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div class="dropDown">
+                        <a class="icon right">Disruptive vs Distressed student</a>
+                        <section>
+                            <div class="grid">
+                                <div class="col2">
+                                    <section>
+                                        <h3>Disruptive <span class="grayText">Student</span></h3>
+                                        <hr>
+                                        <p>A student whose conduct is clearly and imminently reckless, disorderly, dangerous, or threatening, including self-harmful behavior.</p>
+                                        <h4>To get help</h4>
+                                        <p>If you are concerned for your own or others safety due to a student’s disruptive and/or threatening behavior, call 911 or the Campus Police Department.</p>
+                                        <h4>Report incident to</h4>
+                                        <p>Campus Police Department</p>
+                                    </section>
+                                </div>
+                                <div class="col2">
+                                    <section>
+                                        <h3>Distressed <span class="grayText">Student</span></h3>
+                                        <hr>
+                                        <p>A student with persistent behaviors such as</p>
+                                        <ul>
+                                            <li>Overly Anxious</li>
+                                            <li>Sad</li>
+                                            <li>Irratable</li>
+                                            <li>Withdrawn</li>
+                                            <li>Confused</li>
+                                            <li>Lacks motivation and/or concentration</li>
+                                            <li>Seeks constant attention</li>
+                                            <li>Demonstrates bizzare or erratic behavior</li>
+                                            <li>Expressed Suicidal thoughts</li>
+                                        </ul>
+                                    </section>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="panel" id="sayPage">
+                    <section>
+                        <h2>SAY <span class="grayText">SOMETHING.</span></h2>
+                        <p>Students exhibiting troubling behaviors in your presence are likely having difficulties in various settings including the classroom, with roommates, with family, and even in social settings.
+                            Trust your instincts and SAY SOMETHING if a student leaves you feeling worried, alarmed, or threatened
+                        </p>
+                    </section>
+                    <ul class="list inset">
+                        <li><a href="#protocolPage" data-transition="fade">View Protocol</a></li>
+                        <li><a href="#contactPage" data-transition="fade">Visit Contact information</a></li>
+                    </ul>           
+                </div>
+                <div class="panel" id="doPage">
+                    <section>
+                        <h2>DO <span class="grayText">SOMETHING.</span></h2>
+                        <p>
+                            Sometimes students cannot or will not turn to family or friends. DO SOMETHING! Your expression of concern may be a critical factor in saving a student’s academic career or even their life.
+                            The purpose of this folder is to help you recognize symptoms of student distress and identify appropriate referrals to campus resources.
+                        </p>
+                    </section>
+                    <div class="dropDown">
+                        <a class="icon right">Resources &amp; tips</a>
+                        <section>
+                            <section>
+                                <h3>Resources <span class="grayText">&amp;</span> tips</h3>
+                                <div class="grid">
+                                    <div class="col2">
+                                       <ul>
+                                        <li>
+                                            <p><span class="redText">BE PROACTIVE:</span> Engage students early on, pay attention to signs of distress, 
+                                                and set limits on disruptive behavior.</p>
+                                            </li>
+                                            <li>
+                                                <p><span class="redText">BE DIRECT:</span> Don’t be afraid to ask students directly if they are under the influence of drugs or alcohol, feeling confused, or having thoughts of harming themselves or others.</p>
+                                            </li>
+                                            <li>
+                                                <p><span class="redText">LISTEN SENSITIVELY AND CAREFULLY:</span> Use a non-confrontational approach and a calm voice. Avoid threatening, humiliating, and intimidating responses.</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col2">
+                                        <ul>
+                                            <li>
+                                                <p><span class="redText">SAFETY FIRST:</span> The welfare of the campus community is the top priority when a student displays threatening or potentially violent behavior. Do not hesitate to call for help.</p>
+                                            </li>
+                                            <li>
+                                                <p><span class="redText">FOLLOW THROUGH:</span> Direct the student to the physical location of the identified resource.</p>
+                                            </li>
+                                            <li>
+                                                <p><span class="redText">CONSULTATION AND DOCUMENTATION:</span> Always document your interactions with distressed students and consult with your department chair/ supervisor after any incident.</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </section>
+                            <section>
+                                <h4>If a student is causing a disrupton but does not pose a threat</h4>
+                                <ul>
+                                    <li>Ensure your safety in the environment</li>
+                                    <li>Use a calm, non-confrotational approach to defuse/de-escalate the situation</li>
+                                    <li>Set limits by explaining how the behavior is inappropriate</li>
+                                    <li>If the disruptive behavior persists, notify the student that disciplinary action may be taken. Ask the student to leave. Inform him or her that refusal to leave may be a separate violation subject to discipline</li>
+                                    <li>Immediately report the incident to the appropriate resource</li>
+                                </ul>
+                            </section>
+                        </section>
+                    </div>
+                </div>
+                <div class="panel" id="contactPage">
+                    <!-- Dynamic data that is campus dependent -->
+                    <h3>CSUSB Contact Phone Numbers</h3>
+                    <table id="contactInformation">
+                        <tr>
+                            <td>Counseling Center</td>
+                            <td>(909)537-5040</td>
+                        </tr>
+                        <tr>
+                            <td>Student Health Services</td>
+                            <td>(909)537-5241</td>
+                        </tr>
+                        <tr>
+                            <td>University Police</td>
+                            <td>(909)537-7777</td>
+                        </tr>
+                        <tr>
+                            <td>Student Conduct &amp; Ethical</td>
+                            <td>(909)537-5185</td>
+                        </tr>
+                        <tr>
+                            <td>CSUSB Crisis Line</td>
+                            <td>(909)537-5040</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="js/redfolder.js"></script>
+    </body>
+</html>

@@ -1,0 +1,48 @@
+{
+    "name": "California State University, San Bernardino Palm Desert",
+    "shortName": "CSUSB Palm Desert",
+    "position": {
+        "lat": 33.775906,
+        "long": -116.355601
+    },
+    "contactInfo": [
+        {
+            "resource": "Counseling Center",
+            "phoneNumber": "(909)537-5040"
+        },
+        {
+            "resource": "Student Health Services",
+            "phoneNumber": "(909)537-5241"
+        },
+        {
+            "resource": "University Police",
+            "phoneNumber": "(909)537-7777"
+        },
+        {
+            "resource": "Student Conduct & Ethical",
+            "phoneNumber": "(909)537-5185"
+        },
+        {
+            "resource": "CSUSB Crisis Line",
+            "phoneNumber": "(909)537-5040"
+        }
+    ],
+    "protocolActions":{
+        "yes":{
+            "type":"phone",
+            "phoneNumber":"911",
+            "content":"Call 911 or Campus Police"
+        },
+        "notSure":{
+            "type":"appPage",
+            "page":"#contactPage",
+            "content":"Consult with and/or refer to the Counseling Center"
+        },
+        "no":{
+            "type":"text",
+            "content":"Refer students to an appropriate campus resource"
+        }
+    },
+    "additionalInfoURL": "http://www.csusb.edu/disruptiveStudentBehavior.html",
+    "redfolderURL": "http://www.calstate.edu/redfolder/san-bernardino/Red-Folder-San-Bernardino.pdf"
+}
