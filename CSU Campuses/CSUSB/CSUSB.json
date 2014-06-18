@@ -1,9 +1,9 @@
 {
-    "name": "California State University, San Bernardino Palm Desert",
-    "shortName": "CSUSB Palm Desert",
+    "name": "California State University, San Bernardino",
+    "shortName": "CSUSB",
     "position": {
-        "lat": 33.775906,
-        "long": -116.355601
+        "lat": 34.180937,
+        "long": -117.324107
     },
     "contactInfo": [
         {
@@ -34,8 +34,8 @@
             "content":"Call 911 or Campus Police"
         },
         "notSure":{
-            "type":"appPage",
-            "page":"#contactPage",
+            "type":"phone",
+            "phoneNumber":"9095375040",
             "content":"Consult with and/or refer to the Counseling Center"
         },
         "no":{

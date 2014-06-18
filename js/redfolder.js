@@ -1,16 +1,16 @@
 $.ui.useOSThemes = false;
 $.ui.showBackButton=false;
-var campusJSONFiles = ["CSUCampuses/CSUSB.json", "CSUCampuses/CSUSBPalmDesert.json"];
+var jsonFiles = ["CSU\ Campuses/CSUSB/CSUSB.json", "CSU\ Campuses/CSUSB\ Palm\ Desert/CSUSBPalmDesert.json"];
 var CSUCampuses = new Array(); //array of campus objects
 var currentCampus;
 
 function loadCSUCampuses () {	
-	for (var i = 0; i < campusJSONFiles.length; i++) {
-		$.getJSON(campusJSONFiles[i], function(data) {
+	for (var i = 0; i < jsonFiles.length; i++) {
+		$.getJSON(jsonFiles[i], function(data) {
 			CSUCampuses.push(data);
 
 			// check if done loading campus objects
-			if (CSUCampuses.length == campusJSONFiles.length) {
+			if (CSUCampuses.length == jsonFiles.length) {
 				alert("done!");
 				navigator.splashscreen.hide();
 				populateCampusSelectPage();
@@ -39,7 +39,7 @@ function appClickHandler(evt) {
 function onLoad() {
 	document.addEventListener("deviceready", onDeviceReady, false);
 	
-	$(".dropDown a").bind("click", function () {
+	/*$(".dropDown a").bind("click", function () {
 		var content = $(this).siblings("section");
 		content.toggleClass("showDetails");
 
@@ -48,7 +48,7 @@ function onLoad() {
 		} else {
 			$(this).replaceClass("down", "right");
 		}
-	});
+	});*/
 }
 function onDeviceReady() {
 	loadCSUCampuses();
@@ -127,63 +127,66 @@ function populateCampusSelectPage () {
 	campusSelector.html(campusOptions);
 }
 function campusManuallySelected() {
-	var selectElement = document.getElementById("selectCampus");
-	setCurrentCampus(selectElement.selectedIndex);
+	var campusSelector = document.getElementById("selectCampus");
+	setCurrentCampus(campusSelector.selectedIndex);
 
 	$.ui.hideModal();
 }
 function setCurrentCampus(index) {
 	currentCampus = CSUCampuses[index];
 
-	//update campus name wherever necessary
-	var campusLabels = $(".campusName");
-	$.each(campusLabels,function(ind, label){
-		label.innerHTML = currentCampus.shortName + " ";
-	});
+	// TODO: Need logos for campuses to place before campus name
+	var campusIndicator = $("#campusIndicator");
+	campusIndicator.html("<img src='Frog.jpg' alt='campus logo' class='campusLogo'><span>" + currentCampus.name + "</span><a href='#' class='icon close' onclick='hideCampusIndicator()'></a>");
+	campusIndicator.addClass("showCampusIndicator");
 
 	//update protocol
-	var protoYES = $("#protocolYES");
-	var protoNotSure = $("#protocolNOTSURE");
-	var protoNo = $("#protocolNO");
+	var yProtocol = $("#yesProtocol");
+	var nsProtocol = $("#notSureProtocol");
+	var nProtocol = $("#noProtocol");
 
 	var yesAction = currentCampus.protocolActions.yes;
 	var notSureAction = currentCampus.protocolActions.notSure;
 	var noAction = currentCampus.protocolActions.no;
 
-	protoYES.html(determineProtocolContent(yesAction));
-	protoNotSure.html(determineProtocolContent(notSureAction));
-	protoNo.html(determineProtocolContent(noAction));
+	// add action to protocol optionsß
+	setProtocolAction(yProtocol, yesAction);
+	setProtocolAction(nsProtocol, notSureAction);
+	setProtocolAction(nProtocol, noAction);
 
-	//update contact info and any other campus related content
-	var contactTable = $("#contactInformation");
+	//TODO: Are we using images for various resources? How much data do we want to store on each campus?
+	// This is place holder with frog images
+	var contactPage = $("#contactPage");
 	var campusContacts = currentCampus.contactInfo;
 
-	var contactContent = "";
+	var contactContent = "<span class='title'>Contact Resources</span><p>Please contact the appropriate resources to assist any individual whom you believe to be at risk or may be concerned about.</p>";
 	for (var i = 0; i < campusContacts.length; ++i) {
 		var resource = campusContacts[i].resource;
 		var phoneNumber = campusContacts[i].phoneNumber;
 
-		contactContent += "<tr>" + "<td>" + resource + "</td>" + "<td>" + "<a href='tel:" +phoneNumber + "'>" + phoneNumber + "</a>"+ "</td>" +"</tr>";
-		contactTable.html(contactContent);
+		contactContent += "<div class='infoCard'><img src='Frog.jpg' alt='resource image'><span class='title'>" + resource + "</span><a class='action' href='tel:" + phoneNumber + "'>Make Call</a></div>"
+		contactPage.html(contactContent);
 	}
 }
-function determineProtocolContent (protocolAction) {
-	var protocolActionContent = "";
+function setProtocolAction (protocolElement, protocolAction) {
 	switch (protocolAction.type) {
 		case "phone":
-			protocolActionContent = "<a " + "class='protocolAction protocolLink' href='tel:" + protocolAction.phoneNumber + "'>" + protocolAction.content + "</a>";
+			protocolElement.attr("href", "tel:" + protocolAction.phoneNumber);
 			break;
 		case "appPage":
-			protocolActionContent = "<a " + "class='protocolAction protocolLink' href='" + protocolAction.page + "'>" + protocolAction.content + "</a>";
+			protocolElement.attr("href", protocolAction.page);
+			protocolElement.attr("data-transition", "fade");
 			break;
 		case "email":
-			protocolActionContent = "<a " + "class='protocolAction protocolLink' href='mailto:" + protocolAction.emailAddress + "'>" + protocolAction.content + "</a>";
+			protocolElement.attr("href", "mailto:" + protocolAction.emailAddress);
 			break;
 		case "text":
-			protocolActionContent = "<span class='protocolAction'>" + protocolAction.content + "</span>";
-			break;
+			protocolElement.attr("onclick", "navigator.notification.alert('" + protocolAction.content + "', function (){}, 'Protocol')");
+			protocolElement.attr("href","#");
 		default:
-			protocolActionContent = "";
+			protocolElement.attr("href", "#");
 	}
-	return protocolActionContent;
+}
+function hideCampusIndicator() {
+	$("#campusIndicator").removeClass("showCampusIndicator");
 }
