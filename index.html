@@ -30,7 +30,7 @@
     <script type="text/javascript" src="phonegap.js"></script>
     <script type="text/javascript" src="js/appframework.min.js"></script>
     <script type="text/javascript" src="js/appframework.ui.js"></script>
-
+    
     <style type="text/css">
         .footer {
             display:none !important;
@@ -262,6 +262,14 @@
                     padding: 5px;
                 }
         </style>
+        <script type="text/javascript">
+            if (! ( (window.DocumentTouch && document instanceof  DocumentTouch ) || 'ontouchstart' in window )) {
+                var script = document.createElement ("script");
+                script.src = "plugins/af.desktopBrowsers.js";
+                var tag = $("head").append(script);
+            }
+
+        </script>
     </head>
     <body onload="onLoad()">
         <div id="afui">
@@ -458,10 +466,6 @@
                         </div>
                     </div>
                 </div>
-                
-                
-                
-            
         </div>
         <div class="panel" id="indicatorsPage" modal="true">
             <div class="grid">
