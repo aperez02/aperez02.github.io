@@ -30,7 +30,7 @@
     <script type="text/javascript" src="phonegap.js"></script>
     <script type="text/javascript" src="js/appframework.min.js"></script>
     <script type="text/javascript" src="js/appframework.ui.js"></script>
-    
+
     <style type="text/css">
         .footer {
             display:none !important;
@@ -126,12 +126,12 @@
 				position: relative;
 				display: none;
 				background-color: #FFFFFF;
-				padding: 10px 5px;
-				border-bottom: 2px solid #C6C6C6;
-				margin: 0 auto;
-				font-size: 0.85em;
-				color: #717171;
-                width: 100%;
+				padding:10px 20px;
+				width: 100%;
+                color: #979797;
+                font:500 82% "open sans", "helvetica neue","helvetica";
+                border-bottom:2px solid rgba(0,0,0,.15);
+                overflow:hidden;
 			}
 			#campusIndicator.showCampusIndicator {
 				display: block;
@@ -154,16 +154,10 @@
             			CHANGE
                        ========================== */
 
-                       #afui #content .title {
+                    #content .title {
                         display: block;
-                        font: 300 120% "helvetica neue"
+                        font: 300 133% "helvetica neue";
                     }
-
-
-
-
-
-
 
                     #afui #content .redTitle {
                         color: #C70023;
@@ -181,7 +175,7 @@
                         margin-right: -10px;
                         font-size: 1.1em;
                     }
-                    #content .infoCard {
+                    #content .card {
                         display: block;
                         position: relative;
                         min-height: 175px;
@@ -189,79 +183,96 @@
                         width: 100%;
                         text-decoration: none;
                         padding: 25px;
-                        font-size: 1.2em;
                         background: #ffffff;
-                        margin: 5px auto;
+                        margin: 0px auto 10px;
                         box-shadow:1px 1px 2px #C6C6C6;
                         border-radius:1px;
                     }
-                    #content .infoCard p{
-                        font-size: .85em; 
+                    #content .card p {
+                        font-size: .95em; 
+                    }
+                    #content .card-info{
+                        font-size:85%;
+                        color:#8D8D8D;
+                        font-family: "open sans", "helvetica neue";
+                        margin-left:90px;
+
+                    } 
+
+
+                    #content .address{
+                        font-weight: 500;
+                        margin-bottom:5px;
+                    }
+
+                    #content .card .title {
+                        color: #717171;
+                        font-weight:300;
+                        font-size:140%;
+                        margin:5px 0px 10px 0px;
+                    }
+
+
+                    #content .hours{
+                        margin-bottom:10px;
+                        display:block;
+                        font-size:95%;
+                    }
+
+                    #content .card-image{
+                        left:0px;
+                        top:0px;
+                        position:absolute;
+                        background:#AAAAAA;
+                        width:90px;
+                        height:100%;
+                    }
+
+
+                    #content .resource-links a{
+                        display: table-cell;
+                        text-align:center;
+                        color: #4AABDC;
+                        text-decoration:none;
 
                     }
-                    #content .infoCard img {
-                        position: absolute;
-                        top:0; bottom: 0; left: 0;
-                        width: 100px;
-                        height: 100%;
+
+                    #content .resource-links{
+                        font-family:helvetica cy;
+                        display:table;
+                        table-layout: fixed;
+                        width:100%;
+                        border-top:1px solid #E2E2E2;
+                        padding-top:15px;
+                        margin-bottom:-5px;
+
                     }
-                    #content .infoCard img ~ * {
-                        margin-left: 100px;
+
+                    #content .page-header {
+                        margin: 10px;
                     }
-                    #content .action {
-                        font-size: .85em;
-                        display: inline;
-                        color: #3a8fc1;
-                        text-decoration: none;
+                    #content .page-header .title {
+                        font: 300 150% "open sans", "helvetica neue", helvetica;
                     }
-                    #content .actionList {
-                        border-top: 1px solid #C6C6C6;
+                    #content .page-header p {
+                        font-size: .95em;
                     }
-                    #content .actionList li {
-                        display: inline-block;
+
+                    #content .make-call, #content .directions, #content .website{
+                        display:inline-block;
                     }
-                    #content .actionList a {
-                        font-size: .85em;
-                        display: inline;
-                        color: #3a8fc1;
-                        text-decoration: none;
-                    }
-                    #content .protocolLink {
-                        display: inline-block;
-                        padding: 5px;
-                        text-decoration: none;
-                    }
-                    #content .protocolLink::after {
-                        font-family: 'chevron';
-                        content: "\f054";
-                        font-size: 0.7em;
-                        speak:none;
-                        color: black;
-                        position: relative;
-                        top:-1px;
-                        right: -5px;
-                    }
-                    .redInfoCard {
+                .card.redCard {
                      border-left:5px solid #f15b51;
                      color: black !important;
                  }
-                 .yellowInfoCard {
+                .card.yellowCard {
                      border-left:5px solid #f0bf16;
                      color: black !important;
                  }
-                 .greenInfoCard {
+                .card.greenCard {
                      border-left:5px solid #9cc871;
                      color: black !important;
                  }
-                 #content table {
-                    width: 100%;
-                }
-                #content table tr:nth-child(even) {
-                    background-color: #cbcbcb;
-                }
-                #content table td {
-                    padding: 5px;
-                }
         </style>
         <script type="text/javascript">
             if (! ( (window.DocumentTouch && document instanceof  DocumentTouch ) || 'ontouchstart' in window )) {
@@ -278,9 +289,8 @@
                 <h1>Red Folder</h1>
                 <a href="#campusSelectPage" class="button icon big location"></a>
             </div>
-			<div id="campusIndicator" class="showCampusIndicator">
-                <img src='Frog.jpg' alt='campus logo' class='campusLogo'>
-                <span>California State University, San Bernardino</span>
+			<div id="campusIndicator">
+                <img src='Frog.jpg' alt='campus logo' class='campusLogo'><span>CSU San Bernardino</span>
                 <a href='#' class='icon close' onclick='hideCampusIndicator()'></a>
 			</div>
             <ul id="tabMenu">
@@ -299,24 +309,26 @@
                     <a href="#" class="button" onclick="campusManuallySelected()">Set campus</a>
                 </div>
                 <div class="panel" id="protocolPage" selected="true">
-                    <h3><span class="campusName"></span>Respond protocol</h3>
-                    <p id="protocolQuestion">Is the student a danger to self or others, or does the student need immediate assistance for any reason?</p>
+                    <div class="page-header">
+                        <span class="title">Respond protocol</span>
+                        <p>Is the student a danger to self or others, or does the student need immediate assistance for any reason?</p>
+                    </div>
 
                     <div class="grid">
                         <div class="col3">
-                            <a class="infoCard redInfoCard" href="#" id="yesProtocol">
+                            <a class="card redCard" href="#" id="yesProtocol">
                              <span class="title">Student is at risk</span>                            
                              <p>The student’s conduct is clearly and imminently reckless, disorderly, dangerous, or threatening including self-harm behavior</p>
                          </a>
                      </div>
                      <div class="col3">
-                        <a class="infoCard yellowInfoCard" href="#" id="notSureProtocol">
+                        <a class="card yellowCard" href="#" id="notSureProtocol">
                          <span class="title">Signs of Distress</span>
                          <p>The student shows signs of distress but I am unsure how serious it is. My interaction has left me feeling uneasy and/ or really concerned about the student.</p>
                      </a>    
                  </div>
                  <div class="col3">
-                    <a class="infoCard greenInfoCard" href="#" id="noProtocol">
+                    <a class="card greenCard" href="#" id="noProtocol">
                      <span class="title">Not a saftey concern</span>
                      <p>I’m not concerned for the students immediate safety, but he or she is having significant academic and/or personal issues and could use some support or additional resources.</p>
                  </a>
@@ -427,46 +439,113 @@
             </section>
         </div>
         <div class="panel" id="contactPage">
-            <span class='title'>Contact Resources</span>
-            <p>Please contact the appropriate resources to assist any individual whom you believe to be at risk or may be concerned about.</p>
-            <div class="grid">
+            <div class='page-header'>
+                <span class='title'>Contact Resources</span>
+                <p>Please contact the appropriate resources to assist any individual whom you believe may be at risk.</p>
+            </div>
+            <div class='grid'>
                 <div class="col3">
-                    <div class='infoCard'>
-                        <img src='Frog.jpg' alt='resource image'>
-                        <span class='title'>Counseling Center</span>
-                        <a class='action' href='tel:9095375040'>Make Call</a>
+                    <div class="card">
+                        <div class="card-image"></div>
+                        <div class="card-info">
+                            <span class="title">Counseling Center</span>
+                            <div class="address">
+                                <span class="address-number">6000 university parkway</span><br />
+                                <span class="city">San Bernardino</span>
+                                <span class="state">CA</span>
+                                <span class="zip">92407</span>
+                            </div>  
+                            <span class="hours">Monday - Friday (8:00am - 5:00pm)</span>
+                            <div class="resource-links">
+                                <a href="tel:19091234567" class="make-call"><i>Make Call</i></a>
+                                <a href="comgooglemaps://?saddr=California State, University San Bernardino,+6000+University+Parkway,+San+Bernardino,+CA"><i>Directions</i></a>
+                                <a href="" class="website"><i>Website</i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col3">
-                    <div class='infoCard'>
-                        <img src='Frog.jpg' alt='resource image'>
-                        <span class='title'>Student Health Services</span>
-                        <a class='action' href='tel:9095375241'>Make Call</a>
+                    <div class="card">
+                        <div class="card-image"></div>
+                        <div class="card-info">
+                            <span class="title">Student Health Services</span>
+                            <div class="address">
+                                <span class="address-number">6000 university parkway</span><br />
+                                <span class="city">San Bernardino</span>
+                                <span class="state">CA</span>
+                                <span class="zip">92407</span>
+                            </div>  
+                            <span class="hours">Monday - Friday (8:00am - 5:00pm)</span>
+                            <div class="resource-links">
+                                <a href="tel:19091234567" class="make-call"><i>Make Call</i></a>
+                                <a href="comgooglemaps://?saddr=California State, University San Bernardino,+6000+University+Parkway,+San+Bernardino,+CA"><i>Directions</i></a>
+                                <a href="" class="website"><i>Website</i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col3">
-                    <div class='infoCard'>
-                        <img src='Frog.jpg' alt='resource image'>
-                        <span class='title'>University Police</span>
-                        <a class='action' href='tel:9095377777'>Make Call</a>
+                    <div class="card">
+                        <div class="card-image"></div>
+                        <div class="card-info">
+                            <span class="title">University Police</span>
+                            <div class="address">
+                                <span class="address-number">6000 university parkway</span><br />
+                                <span class="city">San Bernardino</span>
+                                <span class="state">CA</span>
+                                <span class="zip">92407</span>
+                            </div>  
+                            <span class="hours">Monday - Friday (8:00am - 5:00pm)</span>
+                            <div class="resource-links">
+                                <a href="tel:19091234567" class="make-call"><i>Make Call</i></a>
+                                <a href="comgooglemaps://?saddr=California State, University San Bernardino,+6000+University+Parkway,+San+Bernardino,+CA"><i>Directions</i></a>
+                                <a href="" class="website"><i>Website</i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col3">
-                    <div class='infoCard'>
-                        <img src='Frog.jpg' alt='resource image'>
-                        <span class='title'>Student Conduct &amp; Ethical  
-                            Development</span>
-                            <a class='action' href='tel:9095375185'>Make Call</a>
+                    <div class="card">
+                        <div class="card-image"></div>
+                        <div class="card-info">
+                            <span class="title">Student Conduct &amp; Ethical  
+                                Development</span>
+                                <div class="address">
+                                    <span class="address-number">6000 university parkway</span><br />
+                                    <span class="city">San Bernardino</span>
+                                    <span class="state">CA</span>
+                                    <span class="zip">92407</span>
+                                </div>  
+                                <span class="hours">Monday - Friday (8:00am - 5:00pm)</span>
+                                <div class="resource-links">
+                                    <a href="tel:19091234567" class="make-call"><i>Make Call</i></a>
+                                    <a href="comgooglemaps://?saddr=California State, University San Bernardino,+6000+University+Parkway,+San+Bernardino,+CA"><i>Directions</i></a>
+                                    <a href="" class="website"><i>Website</i></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col3">
-                        <div class='infoCard'>
-                            <img src='Frog.jpg' alt='resource image'>
-                            <span class='title'>CSUSB Crisis Line</span>
-                            <a class='action' href='tel:9095375040'>Make Call</a>
+                        <div class="card">
+                            <div class="card-image"></div>
+                            <div class="card-info">
+                                <span class="title">CSUSB Crisis Line</span>
+                                <div class="address">
+                                    <span class="address-number">6000 university parkway</span><br />
+                                    <span class="city">San Bernardino</span>
+                                    <span class="state">CA</span>
+                                    <span class="zip">92407</span>
+                                </div>  
+                                <span class="hours">Monday - Friday (8:00am - 5:00pm)</span>
+                                <div class="resource-links">
+                                    <a href="tel:19091234567" class="make-call"><i>Make Call</i></a>
+                                    <a href="comgooglemaps://?saddr=California State, University San Bernardino,+6000+University+Parkway,+San+Bernardino,+CA"><i>Directions</i></a>
+                                    <a href="" class="website"><i>Website</i></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+            </div>
         </div>
         <div class="panel" id="indicatorsPage" modal="true">
             <div class="grid">

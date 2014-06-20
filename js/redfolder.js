@@ -12,9 +12,9 @@ function loadCSUCampuses () {
 			// check if done loading campus objects
 			if (CSUCampuses.length == jsonFiles.length) {
 				alert("done!");
-				navigator.splashscreen.hide();
 				populateCampusSelectPage();
 				navigator.geolocation.getCurrentPosition(onGeolocationSuccess, onGeolocationError);
+				navigator.splashscreen.hide();
 			};
 		});
 	};
@@ -38,17 +38,6 @@ function appClickHandler(evt) {
 
 function onLoad() {
 	document.addEventListener("deviceready", onDeviceReady, false);
-	
-	/*$(".dropDown a").bind("click", function () {
-		var content = $(this).siblings("section");
-		content.toggleClass("showDetails");
-
-		if (content.hasClass("showDetails")) {
-			$(this).replaceClass("right", "down");
-		} else {
-			$(this).replaceClass("down", "right");
-		}
-	});*/
 }
 function onDeviceReady() {
 	loadCSUCampuses();
@@ -155,18 +144,17 @@ function setCurrentCampus(index) {
 	setProtocolAction(nProtocol, noAction);
 
 	//TODO: Are we using images for various resources? How much data do we want to store on each campus?
-	// This is place holder with frog images
-	var contactPage = $("#contactPage");
 	var campusContacts = currentCampus.contactInfo;
 
-	var contactContent = "<span class='title'>Contact Resources</span><p>Please contact the appropriate resources to assist any individual whom you believe to be at risk or may be concerned about.</p>";
+	var contactContent = "<div class='page-header'><span class='title'>Contact Resources</span><p>Please contact the appropriate resources to assist any individual whom you believe may be at risk.</p></div><div class='grid'>";
 	for (var i = 0; i < campusContacts.length; ++i) {
 		var resource = campusContacts[i].resource;
 		var phoneNumber = campusContacts[i].phoneNumber;
 
-		contactContent += "<div class='infoCard'><img src='Frog.jpg' alt='resource image'><span class='title'>" + resource + "</span><a class='action' href='tel:" + phoneNumber + "'>Make Call</a></div>"
-		contactPage.html(contactContent);
+		contactContent += "<div class='col3'><div class='card'> <div class='card-image'></div> <div class='card-info'> <span class='title'>" + resource + "</span> <div class='address'> <span class='address-number'>6000 university parkway</span><br /> <span class='city'>San Bernardino</span> <span class='state'>CA</span> <span class='zip'>92407</span> </div> <span class='hours'>Monday - Friday (8:00am - 5:00pm)</span> <div class='resource-links'> <a href='tel:" + phoneNumber + "' class='make-call'><i>Call</i></a> <a href='comgooglemaps://?saddr=California State, University San Bernardino,+6000+University+Parkway,+San+Bernardino,+CA'><i>Directions</i></a> <a href='' class='website'><i>Website</i></a> </div> </div> </div></div>"; 
 	}
+	contactContent += "</div>"; //close grid
+	$.ui.updatePanel("#contactPage", contactContent);
 }
 function setProtocolAction (protocolElement, protocolAction) {
 	switch (protocolAction.type) {
